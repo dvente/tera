@@ -525,6 +525,8 @@ impl Tera {
         self.register_filter("split", string::split);
         self.register_filter("int", string::int);
         self.register_filter("float", string::float);
+        self.register_filter("katex", string::katex);
+        self.register_filter("display_katex", string::display_katex);
 
         self.register_filter("first", array::first);
         self.register_filter("last", array::last);
@@ -552,6 +554,8 @@ impl Tera {
         self.register_filter("as_str", common::as_str);
 
         self.register_filter("get", object::get);
+
+
     }
 
     fn register_tera_testers(&mut self) {

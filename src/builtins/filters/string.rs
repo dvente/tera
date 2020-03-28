@@ -1,3 +1,5 @@
+extern crate katex;
+
 /// Filters operating on string
 use std::collections::HashMap;
 
@@ -204,6 +206,20 @@ pub fn striptags(value: &Value, _: &HashMap<String, Value>) -> Result<Value> {
     let s = try_get_value!("striptags", "value", String, value);
     Ok(to_value(&STRIPTAGS_RE.replace_all(&s, "")).unwrap())
 }
+
+/// Removes html tags from string
+pub fn katex(value: &Value, _: &HashMap<String, Value>) -> Result<Value> {
+    let s = try_get_value!("katex", "value", String, value);
+    Ok(Value::String(katex::render(&s).unwrap()))
+}
+
+
+pub fn display_katex(value: &Value, _: &HashMap<String, Value>) -> Result<Value> {
+    let s = try_get_value!("display_katex", "value", String, value);
+    let opts = katex::Opts::builder().display_mode(true).build().unwrap();
+    Ok(Value::String(katex::render_with_opts(&s, opts).unwrap()))
+}
+
 
 /// Returns the given text with all special HTML characters encoded
 pub fn escape_html(value: &Value, _: &HashMap<String, Value>) -> Result<Value> {
